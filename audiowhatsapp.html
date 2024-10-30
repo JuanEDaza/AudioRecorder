@@ -421,15 +421,16 @@ $(window).load(function()
 
 
 	function sendAudio(conversationId) {
-		let conversationList;
+		let tempJSON; // Variable para almacenar las respuestas de las API
 		let apiInstance = new platformClient.ConversationsApi();
 
 		// Get conversation
 		apiInstance.getConversation(conversationId)
 			.then((data) => {
 				console.info(`getConversation success!`);
-				conversationList = data;
-				console.log('Datos guardados:', conversationList);
+				tempJSON = data; // Almacena el objeto de GetConversationId
+				console.log('JSON:', tempJSON); // Se puede eliminar
+				console.log('JSON:', JSON.stringify(tempJSON)); // Se puede eliminar
 			})
 			.catch((error) => {
 				console.error("There was a failure calling getConversation");
@@ -437,14 +438,15 @@ $(window).load(function()
 			});
 
 		// Call the function and get the communicationId
-		let communicationId = searchCommunicationId(conversationList);
+		let communicationId = searchCommunicationId(tempJSON);
 		console.log('Declaración de variable ' + communicationId);
 
 		// Create media
 		apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
 			.then((data) => {
 				console.info(`Conversation message send successfully`);
-				let media = data;
+				tempJSON = data; // Almacena el objeto de PostMedia
+				console.log('JSON:', tempJSON); // Se puede eliminar
 			})
 			.catch((error) => {
 				console.error(`Conversation message was not send successfully`);
@@ -452,10 +454,10 @@ $(window).load(function()
 			});
 
 		// Upload media
-		const uploadUrl = media.uploadUrl;
+		const uploadUrl = tempJSON.uploadUrl;
 		uploadAttachment(uploadUrl, token);
 
-		const body = { "mediaIds": [media.id] }
+		const body = { "mediaIds": [tempJSON.id] }
 		const opts = { "useNormalizedMessage": false };
 
 		// Send message
