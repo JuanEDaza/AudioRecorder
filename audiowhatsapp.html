@@ -421,13 +421,14 @@ $(window).load(function()
 
 
 	function sendAudio(conversationId) {
+		let conversationList;
 		let apiInstance = new platformClient.ConversationsApi();
 
 		// Get conversation
 		apiInstance.getConversation(conversationId)
 			.then((data) => {
 				console.info(`getConversation success!`);
-				let conversationList = data;
+				conversationList = data;
 				console.log('Datos guardados:', conversationList);
 			})
 			.catch((error) => {
