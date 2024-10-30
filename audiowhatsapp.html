@@ -466,7 +466,7 @@ $(window).load(function()
 
 	// Función que busca el CommunicationId teniendo en cuenta la lista de conversaciones
 	function searchCommunicationId(conversationList) {
-		const communicationId = "";
+		var communicationId = "";
 		conversationList.participants.forEach(participant => {
 			if (participant.purpose === "agent") {
 				participant.messages.forEach(message => {
