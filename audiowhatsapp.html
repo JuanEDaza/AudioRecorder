@@ -430,7 +430,6 @@ $(window).load(function()
 				console.info(`getConversation success!`);
 				tempJSON = data; // Almacena el objeto de GetConversationId
 				console.log('JSON:', tempJSON); // Se puede eliminar
-				console.log('JSON:', JSON.stringify(tempJSON)); // Se puede eliminar
 			})
 			.catch((error) => {
 				console.error("There was a failure calling getConversation");
@@ -473,16 +472,15 @@ $(window).load(function()
 
 	// Función que busca el CommunicationId teniendo en cuenta la lista de conversaciones
 	function searchCommunicationId(conversationList) {
-		let communicationId = "";
+		let variable = "";
 		conversationList.participants.forEach(participant => {
-			if (participant.purpose === "agent") {
-				participant.messages.forEach(message => {
-					communicationId = message.id;
+			if (conversationList.participant.purpose === "agent") {
+				conversationList.participant.messages.forEach(message => {
+					variable = conversationList.participant.message.id;
 				});
 			}
 		});
-		console.log('Función Comunication ' + communicationId);
-		return communicationId;
+		return variable;
 	}
 
 	//Función que limpia la URL para obtener el token producido por "Implicint Grant"
