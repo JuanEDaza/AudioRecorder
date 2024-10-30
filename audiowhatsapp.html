@@ -379,11 +379,11 @@ $(window).load(function()
 	var conversationId = searchParameters.get("gcConversationId");
 
 	if (conversationId) {
-		sessionStorage.setItem('conversationIdCache', conversationId);
+		localStorage.setItem('conversationIdCache', conversationId);
 		console.log('Inicial ' + conversationId);
 		alert('Inicial ' + conversationId);
 	} else {
-		var conversationCache = sessionStorage.getItem('conversationIdCache');
+		var conversationCache = localStorage.getItem('conversationIdCache');
 		console.log('Recuperado ' +  conversationCache);
 		alert('Recuperado ' + conversationCache);
 	}
