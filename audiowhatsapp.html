@@ -376,14 +376,14 @@ $(window).load(function()
 	const searchParameters = new URLSearchParams(
 		location.search.slice(1) || location.hash.slice(1)
 	);
-	var conversationId = searchParameters.get("gcConversationId");
+	const conversationId = searchParameters.get("gcConversationId");
 
 	if (conversationId) {
 		localStorage.setItem('conversationIdCache', conversationId);
 		console.log('Inicial ' + conversationId);
 		alert('Inicial ' + conversationId);
 	} else {
-		var conversationCache = localStorage.getItem('conversationIdCache');
+		const conversationCache = localStorage.getItem('conversationIdCache');
 		console.log('Recuperado ' +  conversationCache);
 		alert('Recuperado ' + conversationCache);
 	}
@@ -394,7 +394,7 @@ $(window).load(function()
 	).then(() => {
 		if (window.location.hash) {
 			console.log(location.hash);
-			var token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
+			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
 		}
 	});
 
@@ -425,13 +425,15 @@ $(window).load(function()
 
 		//Get conversation
 		apiInstance.getConversation(conversationId)
-			.then((conversationList) => {
+			.then((data) => {
 				console.info(`getConversation success!`);
+				let conversationList = data;
 			})
 			.catch((error) => {
 				console.error("There was a failure calling getConversation");
 				console.error(error.message);
 			});
+			
 
 		// Call the function and get the communicationId
 		const communicationId = searchCommunicationId(conversationList);
@@ -439,8 +441,9 @@ $(window).load(function()
 
 		// Create media
 		apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
-			.then((media) => {
+			.then((data) => {
 				console.info(`Conversation message send successfully`);
+				let media = data;
 			})
 			.catch((error) => {
 				console.error(`Conversation message was not send successfully`);
