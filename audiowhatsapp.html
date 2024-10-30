@@ -423,17 +423,17 @@ $(window).load(function()
 	function sendAudio(conversationId) {
 		let apiInstance = new platformClient.ConversationsApi();
 
-		//Get conversation
+		// Get conversation
 		apiInstance.getConversation(conversationId)
 			.then((data) => {
 				console.info(`getConversation success!`);
 				let conversationList = data;
+				console.log('Datos guardados:', conversationList);
 			})
 			.catch((error) => {
 				console.error("There was a failure calling getConversation");
 				console.error(error.message);
 			});
-			
 
 		// Call the function and get the communicationId
 		let communicationId = searchCommunicationId(conversationList);
