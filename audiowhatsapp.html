@@ -435,6 +435,7 @@ $(window).load(function()
 
 		// Call the function and get the communicationId
 		const communicationId = searchCommunicationId(conversationList);
+		console.log('Declaración de variable ' + communicationId);
 
 		// Create media
 		apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
@@ -474,6 +475,7 @@ $(window).load(function()
 				});
 			}
 		});
+		console.log('Función Comunication ' + communicationId);
 		return communicationId;
 	}
 
