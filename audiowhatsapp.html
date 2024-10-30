@@ -429,7 +429,7 @@ $(window).load(function()
 			.then((data) => {
 				console.info(`getConversation success!`);
 				tempJSON = data; // Almacena el objeto de GetConversationId
-				console.log('JSON:', tempJSON); // Se puede eliminar
+				console.log('JSON CONVERSATION ID:', tempJSON); // Se puede eliminar
 			})
 			.catch((error) => {
 				console.error("There was a failure calling getConversation");
@@ -445,7 +445,7 @@ $(window).load(function()
 			.then((data) => {
 				console.info(`Conversation message send successfully`);
 				tempJSON = data; // Almacena el objeto de PostMedia
-				console.log('JSON:', tempJSON); // Se puede eliminar
+				console.log('JSON MEDIA:', tempJSON); // Se puede eliminar
 			})
 			.catch((error) => {
 				console.error(`Conversation message was not send successfully`);
@@ -474,9 +474,9 @@ $(window).load(function()
 	function searchCommunicationId(conversationList) {
 		let variable = "";
 		conversationList.participants.forEach(participant => {
-			if (conversationList.participant.purpose === "agent") {
-				conversationList.participant.messages.forEach(message => {
-					variable = conversationList.participant.message.id;
+			if (participant.purpose === "agent") {
+				participant.messages.forEach(message => {
+					variable = message.id;
 				});
 			}
 		});
