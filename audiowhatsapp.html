@@ -383,7 +383,7 @@ $(window).load(function()
 		console.log('Inicial ' + conversationId);
 		alert('Inicial ' + conversationId);
 	} else {
-		const conversationCache = localStorage.getItem('conversationIdCache');
+		let conversationCache = localStorage.getItem('conversationIdCache');
 		console.log('Recuperado ' +  conversationCache);
 		alert('Recuperado ' + conversationCache);
 	}
@@ -436,7 +436,7 @@ $(window).load(function()
 			
 
 		// Call the function and get the communicationId
-		const communicationId = searchCommunicationId(conversationList);
+		let communicationId = searchCommunicationId(conversationList);
 		console.log('Declaración de variable ' + communicationId);
 
 		// Create media
