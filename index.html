@@ -397,16 +397,13 @@ $(window).load(function()
 			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
 		}
 	});
-		if (window.location.hash) {
-			console.log(location.hash);
-			// let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
-		}
 
 		const downloadButton = document.getElementById('audio_download');
 		downloadButton.addEventListener('click', async function (event) {
 			event.preventDefault();
 			try {
-				sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
+				console.log('Location Hash: ' + location.hash);
+				sendAudio(conversationCache); // Envía el mensaje mediante las API de Genesys
 				// Si el envío fue exitoso, proceder con la descarga original
 				const downloadUrl = URL.createObjectURL(audioBlob);
 				const a = document.createElement('a');
