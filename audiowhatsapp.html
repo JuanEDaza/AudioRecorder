@@ -384,10 +384,10 @@ $(window).load(function()
 		alert('Inicial ' + conversationId);
 	} else {
 		var conversationCache = localStorage.getItem('conversationIdCache');
-		console.log('Recuperado ' +  conversationCache);
+		console.log('Recuperado ' + conversationCache);
 		alert('Recuperado ' + conversationCache);
 	}
-	
+
 	api.loginImplicitGrant(
 		"eff0ef76-cf9f-4556-8600-a175afe307f2",
 		"https://juanedaza.github.io/AudioRecorder/audiowhatsapp.html"
@@ -421,54 +421,51 @@ $(window).load(function()
 
 
 	function sendAudio(conversationId) {
-		let tempJSON; // Variable para almacenar las respuestas de las API
 		let apiInstance = new platformClient.ConversationsApi();
 
 		// Get conversation
 		apiInstance.getConversation(conversationId)
-			.then((data) => {
+			.then((conversationList) => {
 				console.info(`getConversation success!`);
-				tempJSON = data; // Almacena el objeto de GetConversationId
-				console.log('JSON getConversation:', tempJSON); // Se puede eliminar
+				// console.log('JSON getConversation:', conversationList); // Se puede eliminar
 				// Call the function and get the communicationId
-				let communicationId = searchCommunicationId(tempJSON);
+				let communicationId = searchCommunicationId(conversationList);
 				console.log('CommunicationId identificado: ' + communicationId);
 
-						// Create media
+				// Create media
 				apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
-			.then((data) => {
-				console.info(`Conversation message send successfully`);
-				tempJSON = data; // Almacena el objeto de PostMedia
-				console.log('JSON MEDIA:', tempJSON); // Se puede eliminar
-			})
-			.catch((error) => {
-				console.error(`Conversation message was not send successfully`);
-				console.error(error.message);
-			});
+					.then((media) => {
+						console.info(`Conversation message send successfully`);
+						console.log('JSON MEDIA:', media); // Se puede eliminar
+						// Upload media
+						let uploadUrl = media.uploadUrl;
+						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
+						uploadAttachment(uploadUrl, token);
+
+						const body = { "mediaIds": [media.id] }
+						const opts = { "useNormalizedMessage": false };
+
+						// Send message
+						apiInstance.postConversationsMessageCommunicationMessages(conversationId, communicationId, body, opts)
+							.then((data) => {
+								console.log(`postConversationsMessageCommunicationMessages success!`);
+							})
+							.catch((err) => {
+								console.log("There was a failure calling postConversationsMessageCommunicationMessages");
+								console.error(err);
+							});
+
+					})
+					.catch((error) => {
+						console.error(`Conversation message was not send successfully`);
+						console.error(error.message);
+					});
 			})
 			.catch((error) => {
 				console.error("There was a failure calling getConversation");
 				console.error(error.message);
 			});
 
-
-
-		// Upload media
-		const uploadUrl = tempJSON.uploadUrl;
-		uploadAttachment(uploadUrl, token);
-
-		const body = { "mediaIds": [tempJSON.id] }
-		const opts = { "useNormalizedMessage": false };
-
-		// Send message
-		apiInstance.postConversationsMessageCommunicationMessages(conversationId, communicationId, body, opts)
-			.then((data) => {
-				console.log(`postConversationsMessageCommunicationMessages success!`);
-			})
-			.catch((err) => {
-				console.log("There was a failure calling postConversationsMessageCommunicationMessages");
-				console.error(err);
-			});
 	} // FIN sendAudio
 
 	// Función que busca el CommunicationId teniendo en cuenta la lista de conversaciones
@@ -492,7 +489,7 @@ $(window).load(function()
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-	
+
 	function uploadAttachment(uploadUrl, authToken) {
 		var form = new FormData();
 		form.append('file', [record_result_blob]);
