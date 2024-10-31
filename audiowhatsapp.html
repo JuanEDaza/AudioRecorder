@@ -429,17 +429,15 @@ $(window).load(function()
 			.then((data) => {
 				console.info(`getConversation success!`);
 				tempJSON = data; // Almacena el objeto de GetConversationId
-				console.log('JSON CONVERSATION ID:', tempJSON); // Se puede eliminar
+				console.log('Dentro del GET:', tempJSON); // Se puede eliminar
+				// Call the function and get the communicationId
+				let communicationId = searchCommunicationId(tempJSON);
+				console.log('Declaración de variable ' + communicationId);
 			})
 			.catch((error) => {
 				console.error("There was a failure calling getConversation");
 				console.error(error.message);
 			});
-
-		// Call the function and get the communicationId
-		console.log('JSON CONVERSATION ID:', tempJSON); 
-		let communicationId = searchCommunicationId(tempJSON);
-		console.log('Declaración de variable ' + communicationId);
 
 		// Create media
 		apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
