@@ -494,7 +494,7 @@ $(window).load(function()
 
 	function uploadAttachment(uploadUrl, authToken) {
 		var form = new FormData();
-		form.append('file', record_result_blob);
+		form.append('file', record_result_blob, 'audio.wav');
 
 		$.ajax({
 			url: uploadUrl,
