@@ -402,7 +402,7 @@ $(window).load(function()
 	downloadButton.addEventListener('click', async function (event) {
 		event.preventDefault();
 		try {
-			sendAudio(conversationCache); // Envía el mensaje mediante las API de Genesys
+			sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
 			// Si el envío fue exitoso, proceder con la descarga original
 			const downloadUrl = URL.createObjectURL(audioBlob);
 			const a = document.createElement('a');
@@ -427,7 +427,6 @@ $(window).load(function()
 		apiInstance.getConversation(conversationId)
 			.then((conversationList) => {
 				console.info(`getConversation success!`);
-				// console.log('JSON getConversation:', conversationList); // Se puede eliminar
 				// Call the function and get the communicationId
 				let communicationId = searchCommunicationId(conversationList);
 				console.log('CommunicationId identificado: ' + communicationId);
@@ -436,13 +435,11 @@ $(window).load(function()
 				apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
 					.then((media) => {
 						console.info(`Conversation message send successfully`);
-						// console.log('JSON MEDIA:', media); // Se puede eliminar
 						// Upload media
 						let uploadUrl = media.uploadUrl;
 						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
 						console.warn('TOKEN ' + token)
 						uploadAttachment(uploadUrl, token);
-						
 
 						const body = { "mediaIds": [media.id] }
 						const opts = { "useNormalizedMessage": false };
