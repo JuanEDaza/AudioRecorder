@@ -395,7 +395,9 @@ $(window).load(function()
 		if (window.location.hash) {
 			console.log(location.hash);
 			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
+			console.log('Token THEN ' + token);
 		}
+		console.log('Token ' + token);
 	});
 
 	const downloadButton = document.getElementById('audio_download');
