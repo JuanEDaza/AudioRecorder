@@ -441,6 +441,7 @@ $(window).load(function()
 						let uploadUrl = media.uploadUrl;
 						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
 						console.log('Token: ' + token)
+						console.log('record blob: ' + [record_result_blob])
 						uploadAttachment(uploadUrl, token);
 
 						const body = { "mediaIds": [media.id] }
