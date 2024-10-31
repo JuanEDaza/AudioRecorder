@@ -377,6 +377,7 @@ $(window).load(function()
 		location.search.slice(1) || location.hash.slice(1)
 	);
 	const conversationId = searchParameters.get("gcConversationId");
+	const token = searchParameters.get("access_token");
 
 	if (conversationId) {
 		localStorage.setItem('conversationIdCache', conversationId);
@@ -386,11 +387,7 @@ $(window).load(function()
 		var conversationCache = localStorage.getItem('conversationIdCache');
 		console.log('Recuperado ' + conversationCache);
 		alert('Recuperado ' + conversationCache);
-		if (window.location.hash) {
-			console.log(location.hash);
-			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
-			console.log('Token  ' + token);
-		}
+		console.warn('Token: ' + token);
 	}
 
 	api.loginImplicitGrant(
