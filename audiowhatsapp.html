@@ -395,7 +395,6 @@ $(window).load(function()
 		if (window.location.hash) {
 			console.log(location.hash);
 			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
-			console.log('Token obtenido ' + token);
 		}
 	});
 
@@ -403,7 +402,7 @@ $(window).load(function()
 	downloadButton.addEventListener('click', async function (event) {
 		event.preventDefault();
 		try {
-			sendAudio(conversationCache); // Envía el mensaje mediante las API de Genesys
+			sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
 			// Si el envío fue exitoso, proceder con la descarga original
 			const downloadUrl = URL.createObjectURL(audioBlob);
 			const a = document.createElement('a');
@@ -421,7 +420,7 @@ $(window).load(function()
 	});
 
 
-	function sendAudio(conversationId) {
+	function sendAudio(conversationId, token) {
 		let apiInstance = new platformClient.ConversationsApi();
 
 		// Get conversation
@@ -437,7 +436,7 @@ $(window).load(function()
 				apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
 					.then((media) => {
 						console.info(`Conversation message send successfully`);
-						console.log('JSON MEDIA:', media); // Se puede eliminar
+						// console.log('JSON MEDIA:', media); // Se puede eliminar
 						// Upload media
 						let uploadUrl = media.uploadUrl;
 						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
