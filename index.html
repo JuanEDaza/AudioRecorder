@@ -387,25 +387,24 @@ $(window).load(function()
 		var conversationCache = localStorage.getItem('conversationIdCache');
 		console.log('Recuperado ' + conversationCache);
 		alert('Recuperado ' + conversationCache);
-		console.warn('Token: ' + token);
+		console.log('Token: ' + token);
 	}
 
 	api.loginImplicitGrant(
 		"eff0ef76-cf9f-4556-8600-a175afe307f2",
 		"https://juanedaza.github.io/AudioRecorder/"
-	).then(() => {
+	)/* .then(() => {
 		if (window.location.hash) {
 			console.log(location.hash);
 			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
 		}
-	});
+	}); */
 
 		const downloadButton = document.getElementById('audio_download');
 		downloadButton.addEventListener('click', async function (event) {
 			event.preventDefault();
 			try {
-				console.log('Location Hash: ' + location.hash);
-				sendAudio(conversationCache); // Envía el mensaje mediante las API de Genesys
+				sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
 				// Si el envío fue exitoso, proceder con la descarga original
 				const downloadUrl = URL.createObjectURL(audioBlob);
 				const a = document.createElement('a');
@@ -441,7 +440,7 @@ $(window).load(function()
 						// Upload media
 						let uploadUrl = media.uploadUrl;
 						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
-						console.warn('TOKEN ' + token)
+						console.warn('Token: ' + token)
 						uploadAttachment(uploadUrl, token);
 
 						const body = { "mediaIds": [media.id] }
