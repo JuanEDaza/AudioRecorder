@@ -385,9 +385,9 @@ $(window).load(function()
 		alert('Inicial ' + conversationId);
 	} else {
 		var conversationCache = localStorage.getItem('conversationIdCache');
+		console.log('Token: ' + token);
 		console.log('Recuperado ' + conversationCache);
 		alert('Recuperado ' + conversationCache);
-		console.log('Token: ' + token);
 	}
 
 	api.loginImplicitGrant(
@@ -406,18 +406,18 @@ $(window).load(function()
 			try {
 				sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
 				// Si el envío fue exitoso, proceder con la descarga original
-				const downloadUrl = URL.createObjectURL(audioBlob);
+				/* const downloadUrl = URL.createObjectURL(audioBlob);
 				const a = document.createElement('a');
 				a.href = downloadUrl;
 				a.download = 'record.wav';
 				document.body.appendChild(a);
 				a.click();
 				document.body.removeChild(a);
-				URL.revokeObjectURL(downloadUrl);
+				URL.revokeObjectURL(downloadUrl); */
 				console.log('Audio enviado exitosamente a la API y descargado');
 			} catch (error) {
 				console.error('Error:', error);
-				alert('Hubo un error al procesar el audio');
+				alert('Error:', error);
 			}
 		});
 
@@ -440,7 +440,7 @@ $(window).load(function()
 						// Upload media
 						let uploadUrl = media.uploadUrl;
 						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
-						console.warn('Token: ' + token)
+						console.log('Token: ' + token)
 						uploadAttachment(uploadUrl, token);
 
 						const body = { "mediaIds": [media.id] }
