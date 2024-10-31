@@ -395,9 +395,7 @@ $(window).load(function()
 		if (window.location.hash) {
 			console.log(location.hash);
 			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
-			console.log('Token THEN ' + token);
 		}
-		console.log('Token ' + token);
 	});
 
 	const downloadButton = document.getElementById('audio_download');
@@ -422,7 +420,7 @@ $(window).load(function()
 	});
 
 
-	function sendAudio(conversationId, token) {
+	function sendAudio(conversationId) {
 		let apiInstance = new platformClient.ConversationsApi();
 
 		// Get conversation
@@ -442,7 +440,6 @@ $(window).load(function()
 						// Upload media
 						let uploadUrl = media.uploadUrl;
 						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
-						console.warn('TOKEN ' + token)
 						uploadAttachment(uploadUrl, token);
 						
 
