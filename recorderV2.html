@@ -187,7 +187,7 @@
                     // Call the function and get the communicationId
                     let communicationId = searchCommunicationId(conversationList);
                     console.log('CommunicationId identificado: ' + communicationId);
-                    
+
                     // Create media
                     apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
                         .then((media) => {
@@ -197,7 +197,6 @@
                             console.info('URL del media: ' + uploadUrl) // Se puede eliminar
                             console.log('Token: ' + token)
                             console.log('audioBlob: ' + audioBlob)
-                            //console.log('Record blob: ' + record_result_blob);
                             uploadAttachment(uploadUrl, token, audioBlob);
 
                             const body = { "mediaIds": [media.id] }
@@ -247,7 +246,7 @@
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
-        function uploadAttachment(uploadUrl, authToken, audioBlob) {
+        /* function uploadAttachment(uploadUrl, authToken, audioBlob) {
             var form = new FormData();
             form.append('file', audioBlob, 'audio.mp3');
 
@@ -262,7 +261,31 @@
                 mimeType: 'multipart/form-data',
                 data: form
             });
+        } */
+
+        function uploadAttachment(uploadUrl, authToken, audioBlob) {
+            var form = new FormData();
+            form.append('file', audioBlob, 'audio.mp3');
+
+            $.ajax({
+                url: uploadUrl,
+                method: 'POST',
+                headers: {
+                    Authorization: 'bearer ' + authToken
+                },
+                processData: false,
+                contentType: false,
+                mimeType: 'multipart/form-data',
+                data: form,
+                success: function (response) {
+                    console.warn("Archivo cargado con éxito:", response);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error al cargar el archivo:", textStatus, errorThrown);
+                }
+            });
         }
+
 
     </script>
 
