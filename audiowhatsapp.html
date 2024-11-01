@@ -4,7 +4,6 @@
 <link rel="icon" href="https://cdn-hjhjb.nitrocdn.com/cZXOmaOnBzchEVsoklMbKZDzVVPPjcww/assets/images/optimized/rev-5cfca33/www.informationsys.com/wp-content/uploads/2021/11/cropped-cropped-Icon_information-192x192.png" type="image/x-icon">
 <link href="./files/index_editor.css" rel="stylesheet"><script type="text/javascript" async="" src="./files/analytics.js"></script><script type="text/javascript" async="" src="./files/js"></script><script type="text/javascript" src="./files/index_recorder.js"></script><!-- Icon Fonts -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<script src="files/lame.min.js"></script>
 
 <link href="files/styles.css" rel="stylesheet">
 
@@ -508,32 +507,6 @@ $(window).load(function()
 			mimeType: 'multipart/form-data',
 			data: form
 		});
-	}
-
-	function encodeMP3(samples, sampleRate, numChannels) {
-    // Crear una instancia de la biblioteca LAME
-    var mp3Encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, 128); // 128 kbps
- 
-    // Convertir las muestras a un buffer de MP3
-    var mp3Data = [];
-    var sampleBlockSize = 1152;
-    for (var i = 0; i < samples.length; i += sampleBlockSize) {
-        var sampleChunk = samples.subarray(i, i + sampleBlockSize);
-        var mp3buf = mp3Encoder.encodeBuffer(sampleChunk);
-        if (mp3buf.length > 0) {
-            mp3Data.push(mp3buf);
-        }
-    }
- 
-    // Finalizar la codificación
-    var mp3buf = mp3Encoder.flush();
-    if (mp3buf.length > 0) {
-        mp3Data.push(mp3buf);
-    }
- 
-    // Combinar los bloques MP3 en un solo Blob
-    var blob = new Blob(mp3Data, { type: 'audio/mp3' });
-    return blob;
 	}
 
 </script>
