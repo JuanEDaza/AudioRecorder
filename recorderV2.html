@@ -146,7 +146,7 @@
 
         api.loginImplicitGrant(
             "eff0ef76-cf9f-4556-8600-a175afe307f2",
-            "https://dist.sistecredito.informationsys.com/audio_recorder/recorderV2.html"
+            "https://juanedaza.github.io/AudioRecorder/recorderV2.html"
         )/* .then(() => {
 		if (window.location.hash) {
 			console.log(location.hash);
@@ -186,7 +186,7 @@
                     // Call the function and get the communicationId
                     let communicationId = searchCommunicationId(conversationList);
                     console.log('CommunicationId identificado: ' + communicationId);
-
+                    
                     // Create media
                     apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
                         .then((media) => {
