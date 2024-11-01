@@ -4,6 +4,7 @@
 <link rel="icon" href="https://cdn-hjhjb.nitrocdn.com/cZXOmaOnBzchEVsoklMbKZDzVVPPjcww/assets/images/optimized/rev-5cfca33/www.informationsys.com/wp-content/uploads/2021/11/cropped-cropped-Icon_information-192x192.png" type="image/x-icon">
 <link href="./files/index_editor.css" rel="stylesheet"><script type="text/javascript" async="" src="./files/analytics.js"></script><script type="text/javascript" async="" src="./files/js"></script><script type="text/javascript" src="./files/index_recorder.js"></script><!-- Icon Fonts -->
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<script src="files/lame.min.js"></script>
 
 <link href="files/styles.css" rel="stylesheet">
 
@@ -377,6 +378,7 @@ $(window).load(function()
 		location.search.slice(1) || location.hash.slice(1)
 	);
 	const conversationId = searchParameters.get("gcConversationId");
+	const token = searchParameters.get("access_token");
 
 	if (conversationId) {
 		localStorage.setItem('conversationIdCache', conversationId);
@@ -384,42 +386,41 @@ $(window).load(function()
 		alert('Inicial ' + conversationId);
 	} else {
 		var conversationCache = localStorage.getItem('conversationIdCache');
+		console.log('Token: ' + token);
 		console.log('Recuperado ' + conversationCache);
 		alert('Recuperado ' + conversationCache);
 	}
 
 	api.loginImplicitGrant(
 		"eff0ef76-cf9f-4556-8600-a175afe307f2",
-		"https://juanedaza.github.io/AudioRecorder/audiowhatsapp.html"
-	).then(() => {
+		"https://dist.sistecredito.informationsys.com/audio_recorder/audiowhatsapp.html"
+	)/* .then(() => {
 		if (window.location.hash) {
 			console.log(location.hash);
 			let token = getParameterByName('access_token'); // Token generado por "Implicint Grant"
-			console.log('Token THEN ' + token);
 		}
-		console.log('Token ' + token);
-	});
+	}); */
 
-	const downloadButton = document.getElementById('audio_download');
-	downloadButton.addEventListener('click', async function (event) {
-		event.preventDefault();
-		try {
-			sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
-			// Si el envío fue exitoso, proceder con la descarga original
-			const downloadUrl = URL.createObjectURL(audioBlob);
-			const a = document.createElement('a');
-			a.href = downloadUrl;
-			a.download = 'record.wav';
-			document.body.appendChild(a);
-			a.click();
-			document.body.removeChild(a);
-			URL.revokeObjectURL(downloadUrl);
-			console.log('Audio enviado exitosamente a la API y descargado');
-		} catch (error) {
-			console.error('Error:', error);
-			alert('Hubo un error al procesar el audio');
-		}
-	});
+		const downloadButton = document.getElementById('audio_download');
+		downloadButton.addEventListener('click', async function (event) {
+			event.preventDefault();
+			try {
+				sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
+				// Si el envío fue exitoso, proceder con la descarga original
+				/* const downloadUrl = URL.createObjectURL(audioBlob);
+				const a = document.createElement('a');
+				a.href = downloadUrl;
+				a.download = 'record.wav';
+				document.body.appendChild(a);
+				a.click();
+				document.body.removeChild(a);
+				URL.revokeObjectURL(downloadUrl); */
+				console.log('Audio enviado exitosamente a la API y descargado');
+			} catch (error) {
+				console.error('Error:', error);
+				alert('Error:', error);
+			}
+		});
 
 
 	function sendAudio(conversationId, token) {
@@ -429,7 +430,6 @@ $(window).load(function()
 		apiInstance.getConversation(conversationId)
 			.then((conversationList) => {
 				console.info(`getConversation success!`);
-				// console.log('JSON getConversation:', conversationList); // Se puede eliminar
 				// Call the function and get the communicationId
 				let communicationId = searchCommunicationId(conversationList);
 				console.log('CommunicationId identificado: ' + communicationId);
@@ -438,10 +438,11 @@ $(window).load(function()
 				apiInstance.postConversationsMessageCommunicationMessagesMedia(conversationId, communicationId)
 					.then((media) => {
 						console.info(`Conversation message send successfully`);
-						// console.log('JSON MEDIA:', media); // Se puede eliminar
 						// Upload media
 						let uploadUrl = media.uploadUrl;
 						console.info('URL del media: ' + uploadUrl) // Se puede eliminar
+						console.log('Token: ' + token)
+						console.log('Record blob: ' + record_result_blob);
 						uploadAttachment(uploadUrl, token);
 
 						const body = { "mediaIds": [media.id] }
@@ -494,7 +495,7 @@ $(window).load(function()
 
 	function uploadAttachment(uploadUrl, authToken) {
 		var form = new FormData();
-		form.append('file', [record_result_blob]);
+		form.append('file', record_result_blob, 'audio.wav');
 
 		$.ajax({
 			url: uploadUrl,
@@ -507,6 +508,32 @@ $(window).load(function()
 			mimeType: 'multipart/form-data',
 			data: form
 		});
+	}
+
+	function encodeMP3(samples, sampleRate, numChannels) {
+    // Crear una instancia de la biblioteca LAME
+    var mp3Encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, 128); // 128 kbps
+ 
+    // Convertir las muestras a un buffer de MP3
+    var mp3Data = [];
+    var sampleBlockSize = 1152;
+    for (var i = 0; i < samples.length; i += sampleBlockSize) {
+        var sampleChunk = samples.subarray(i, i + sampleBlockSize);
+        var mp3buf = mp3Encoder.encodeBuffer(sampleChunk);
+        if (mp3buf.length > 0) {
+            mp3Data.push(mp3buf);
+        }
+    }
+ 
+    // Finalizar la codificación
+    var mp3buf = mp3Encoder.flush();
+    if (mp3buf.length > 0) {
+        mp3Data.push(mp3buf);
+    }
+ 
+    // Combinar los bloques MP3 en un solo Blob
+    var blob = new Blob(mp3Data, { type: 'audio/mp3' });
+    return blob;
 	}
 
 </script>

@@ -60,6 +60,7 @@
         let audioChunks = [];
         let timer;
         let seconds = 0;
+        let audioBlob;
 
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
@@ -94,7 +95,6 @@
             stopTimer();
         }
 
-        let audioBlob;
         function saveAudio() {
             audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
             const audioUrl = URL.createObjectURL(audioBlob);
@@ -146,7 +146,7 @@
 
         api.loginImplicitGrant(
             "eff0ef76-cf9f-4556-8600-a175afe307f2",
-            "https://dist.sistecredito.informationsys.com/audio_recorder/audiowhatsapp.html"
+            "https://dist.sistecredito.informationsys.com/audio_recorder/recorderV2.html"
         )/* .then(() => {
 		if (window.location.hash) {
 			console.log(location.hash);
@@ -158,8 +158,7 @@
         downloadButton.addEventListener('click', async function (event) {
             event.preventDefault();
             try {
-                audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-                sendAudio(conversationCache, token); // Envía el mensaje mediante las API de Genesys
+                sendAudio(conversationCache, token, audioBlob); // Envía el mensaje mediante las API de Genesys
                 // Si el envío fue exitoso, proceder con la descarga original
                 /* const downloadUrl = URL.createObjectURL(audioBlob);
                 const a = document.createElement('a');
@@ -177,7 +176,7 @@
         });
 
 
-        function sendAudio(conversationId, token) {
+        function sendAudio(conversationId, token, audioBlob) {
             let apiInstance = new platformClient.ConversationsApi();
 
             // Get conversation
@@ -196,8 +195,9 @@
                             let uploadUrl = media.uploadUrl;
                             console.info('URL del media: ' + uploadUrl) // Se puede eliminar
                             console.log('Token: ' + token)
+                            console.log('audioBlob: ' + audioBlob)
                             //console.log('Record blob: ' + record_result_blob);
-                            uploadAttachment(uploadUrl, token);
+                            uploadAttachment(uploadUrl, token, audioBlob);
 
                             const body = { "mediaIds": [media.id] }
                             const opts = { "useNormalizedMessage": false };
@@ -246,7 +246,7 @@
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
-        function uploadAttachment(uploadUrl, authToken) {
+        function uploadAttachment(uploadUrl, authToken, audioBlob) {
             var form = new FormData();
             form.append('file', audioBlob, 'audio.mp3');
 
