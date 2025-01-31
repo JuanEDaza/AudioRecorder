@@ -84,10 +84,6 @@ color: red;
   box-shadow: 0 0.3em 1em -0.5em #3b82f6;
 }
 
-/* button:disabled {
-  pointer-events: none;
-} */
-
 .button::before {
   content: "";
   width: 4px;
