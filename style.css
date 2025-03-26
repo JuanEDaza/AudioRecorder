@@ -1,0 +1,193 @@
+body {
+  line-height: 1.5;
+  font-family: sans-serif;
+  margin: 20px 20px;
+  background: linear-gradient(90deg,#020024 0,#52708a 50%,#020024 100%);
+}
+
+audio {
+  width: 100%;
+}
+
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  box-shadow: 0 3px 8px #93c83e86;
+  border: 1px solid #4CAF50;
+  border-radius: 15px;
+  background: #ffffff;
+}
+
+#timer{
+  text-align: center;
+  color: white;
+  font-size: 3rem;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
+  margin-top: 20px;
+  margin-bottom: 0px;
+}
+
+.controls{
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem; /* 1rem = 16px */
+}
+
+#recordingsList{
+  margin: 16px;
+}
+
+.fa-stop{
+color: red;
+}
+
+.fa-microphone{
+  color: #00b7ff;
+}
+
+.fa-paper-plane{
+  color: rgb(0, 255, 0);
+}
+
+
+
+/* --------------- ↓ Estilos botones ↓ --------------- */
+.button {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 17px;
+  padding: 12px 50px;
+  color: white;
+  background: linear-gradient(90deg,#020024 0,#52708a 50%,#020024 100%);
+  /* border: none; */
+  box-shadow: 0 0.7em 1.5em -0.5em rgba(59, 48, 78, 0.527);
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  /* margin: 0px 30px; */
+}
+
+.button:hover {
+  box-shadow: 0 0.5em 1.5em -0.5em #3b82f6;
+  outline: none;
+  /* background: #92c83e; */
+  background: linear-gradient(90deg,#52708a 0,#020024 50%,#52708a 100%);
+  border-top-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+}
+
+.button:active {
+  box-shadow: 0 0.3em 1em -0.5em #3b82f6;
+}
+
+.button::before {
+  content: "";
+  width: 4px;
+  height: 40%;
+  background-color: #92c83e;
+  position: absolute;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  left: 0;
+  transition: all 0.2s;
+}
+
+.button::after {
+  content: "";
+  width: 4px;
+  height: 40%;
+  background-color: #92c83e;
+  position: absolute;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  right: 0;
+  transition: all 0.2s;
+}
+
+.button:hover::before,
+.button:hover::after {
+  height: 60%;
+}
+
+.button:hover::before {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  transform: translate(5px, -15px) rotate(45deg);
+}
+
+.button:hover::after {
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  transform: translate(-5px, 15px) rotate(45deg);
+}
+
+/* --------------- ↑ Estilos botones ↑ --------------- */
+
+
+#loading{
+  margin-top: 40px;
+}
+
+/* --------------- ↓ Estilos "loading" ↓ --------------- */
+.dots-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.dot {
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+  border-radius: 10px;
+  background-color: #b3d4fc;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.dot:last-child {
+  margin-right: 0;
+}
+
+.dot:nth-child(1) {
+  animation-delay: -0.3s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: -0.1s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    background-color: #b3d4fc;
+    box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+  }
+
+  50% {
+    transform: scale(1.2);
+    background-color: #6793fb;
+    box-shadow: 0 0 0 10px rgba(178, 212, 252, 0);
+  }
+
+  100% {
+    transform: scale(0.8);
+    background-color: #b3d4fc;
+    box-shadow: 0 0 0 0 rgba(178, 212, 252, 0.7);
+  }
+}
+
+/* --------------- ↑ Estilos "loading" ↑ --------------- */
